@@ -3,10 +3,108 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.d2ux</groupId>
     <artifactId>sysexits</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.2</version>
+    <description>A Java library that provides standardized exit status codes similar to FreeBSD's sysexits.h.</description>
+    <url>https://github.com/MatthiasPetermann/sysexits-java</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Matthias Petermann</name>
+            <email>matthias@d2ux.net</email>
+            <organization>The D2UX Project</organization>
+            <organizationUrl>https://www.d2ux.net</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>git@github.com:MatthiasPetermann/sysexits-java.git</connection>
+        <developerConnection>git@github.com:MatthiasPetermann/sysexits-java.git</developerConnection>
+        <url>https://github.com/MatthiasPetermann/sysexits-java</url>
+    </scm>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
     </properties>
+    
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>            
+            <build>               
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+    <repositories>
+        <repository>
+            <id>forgejo</id>
+            <url>https://forge.ext.d2ux.net/api/packages/oss/maven</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>forgejo</id>
+            <url>https://forge.ext.d2ux.net/api/packages/oss/maven</url>
+        </repository>
+        <snapshotRepository>
+            <id>forgejo</id>
+            <url>https://forge.ext.d2ux.net/api/packages/oss/maven</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
 </project>
